@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenWritter — AI Writing Assistant</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <h1 class="logo">Open<span>Writter</span></h1>
+
+      <label class="field">
+        <span>OpenRouter API Key</span>
+        <input type="password" id="apiKey" placeholder="sk-or-v1-..." />
+      </label>
+
+      <label class="field">
+        <span>Model</span>
+        <input type="text" id="model" list="modelList" value="openai/gpt-4o-mini" />
+        <datalist id="modelList"></datalist>
+      </label>
+      <button id="loadModels" class="btn small">Load model list</button>
+
+      <label class="field">
+        <span>AI instructions</span>
+        <textarea id="instructions" rows="3" placeholder="e.g. Dark fantasy, first person, vivid prose"></textarea>
+      </label>
+
+      <label class="field">
+        <span>Max tokens <output id="maxTokensVal">300</output></span>
+        <input type="range" id="maxTokens" min="50" max="2000" step="50" value="300" />
+      </label>
+
+      <label class="field">
+        <span>Temperature <output id="tempVal">0.8</output></span>
+        <input type="range" id="temperature" min="0" max="2" step="0.05" value="0.8" />
+      </label>
+
+      <details class="section advanced">
+        <h2>Advanced AI settings</h2>
+        <label class="field check">
+          <input type="checkbox" id="thinkingMode" />
+          <span>Thinking mode (reasoning models)</span>
+        </label>
+        <label class="field">
+          <span>Depth of thinking</span>
+          <select id="thinkingDepth">
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Max reasoning tokens</span>
+          <input type="number" id="thinkingTokens" min="0" step="128" placeholder="auto" />
+        </label>
+        <label class="field check">
+          <input type="checkbox" id="hideReasoning" checked />
+          <span>Hide reasoning from output</span>
+        </label>
+
+        <label class="field">
+          <span>Provider order (comma separated, optional)</span>
+          <input type="text" id="providerOrder" placeholder="e.g. Anthropic, OpenAI" />
+        </label>
+        <label class="field check">
+          <input type="checkbox" id="allowFallbacks" checked />
+          <span>Allow provider fallbacks</span>
+        </label>
+
+        <label class="field">
+          <span>Top P <output id="topPVal">1</output></span>
+          <input type="range" id="topP" min="0.05" max="1" step="0.05" value="1" />
+        </label>
+        <label class="field">
+          <span>Frequency penalty <output id="freqPenVal">0</output></span>
+          <input type="range" id="freqPenalty" min="-2" max="2" step="0.1" value="0" />
+        </label>
+        <label class="field">
+          <span>Presence penalty <output id="presPenVal">0</output></span>
+          <input type="range" id="presPenalty" min="-2" max="2" step="0.1" value="0" />
+        </label>
+        <label class="field">
+          <span>Seed (empty = random)</span>
+          <input type="number" id="seed" placeholder="random" />
+        </label>
+        <label class="field">
+          <span>Stop sequences (comma separated)</span>
+          <input type="text" id="stopSeq" placeholder="e.g. ###, THE END" />
+        </label>
+      </details>
+
+      <div class="section">
+        <h2>Stories</h2>
+        <div class="row">
+          <input type="text" id="storyName" placeholder="Story title" />
+          <button id="saveStory" class="btn small">Save</button>
+        </div>
+        <ul id="storyList"></ul>
+      </div>
+    </aside>
+
+    <main class="editor">
+      <div class="toolbar">
+        <button id="generate" class="btn primary">Continue ▶</button>
+        <button id="stop" class="btn" disabled>Stop ■</button>
+        <button id="retry" class="btn">Retry last</button>
+        <button id="undo" class="btn">Undo</button>
+        <button id="clear" class="btn danger">Clear</button>
+        <span id="wordCount" class="muted"></span>
+      </div>
+      <div id="story" class="story" contenteditable="true" spellcheck="true" data-placeholder="Start writing your story here, then press Continue to let the AI take over..."></div>
+      <div id="status" class="status"></div>
+      <div class="usagebar">
+        <div class="usageinfo">
+          <span id="usageText" class="muted">0 tokens</span>
+          <span id="costText" class="muted"></span>
+        </div>
+        <div class="meter" title="Context window usage">
+          <div id="usageFill" class="meter-fill"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

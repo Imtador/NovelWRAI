@@ -1,0 +1,14 @@
+{
+  "name": "openwritter",
+  "version": "1.0.0",
+  "description": "AI writing assistant powered by OpenRouter",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "gpt-tokenizer": "^4.0.0"
+  }
+}
